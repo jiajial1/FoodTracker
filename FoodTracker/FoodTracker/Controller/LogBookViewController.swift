@@ -11,6 +11,15 @@ import UIKit
 class LogBookViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = Constance.beige
         navigationController?.title = "LogBook"
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        
+    }
+    private func addSubViews() {
+        
     }
 }

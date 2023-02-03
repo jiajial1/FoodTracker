@@ -6,15 +6,10 @@
 //
 
 import UIKit
+import Charts
 
-class SummaryViewController: UIViewController {
-    struct Constance {
-        static let cornerRadius: CGFloat = 8.0
-        static let font: String = "GillSans"
-        
-    }
-    let dataStamp = [Date(), Date(),Date(),Date(),Date(),Date()]
-    let calories = [1800, 1600, 1800, 1600, 1800, 1800]
+class SummaryViewController: UIViewController {  
+    let calories: [Double] = [1800, 1600, 1800, 1600, 1800, 1800, 1800, 1600, 1800, 1600, 1800, 1800]
 
     private let tenDaysAvgLabel: UILabel = {
         let label = UILabel()
@@ -45,21 +40,63 @@ class SummaryViewController: UIViewController {
         return container
     }()
     
-    private let barChartView: UIView = {
-        let container = UIView()
-//        container.backgroundColor = .systemBackground
-        container.backgroundColor = .red
+    private let barChart: BarChartView = {
+        let chart = BarChartView()
+        let dateStamp = ["1/20/2023", "1/20/2023", "1/20/2023", "1/20/2023","1/20/2023", "1/20/2023", "1/20/2023", "1/20/2023", "1/20/2023", "1/20/2023"]
 
+        // Setup Y axis
+        let leftAxis = chart.leftAxis
+        leftAxis.setLabelCount(6, force: true)
+        leftAxis.axisMinimum = 500.0
+
+        let xAxis = chart.xAxis
+        xAxis.labelRotationAngle = -25
+        xAxis.labelPosition = .bottom
+        xAxis.valueFormatter = IndexAxisValueFormatter(values: dateStamp)
+        
+        let rightAxis = chart.rightAxis
+        rightAxis.enabled = false
+        
+        // Bar, Grid Line, Background
+        chart.drawGridBackgroundEnabled = false
+        chart.drawBordersEnabled = false
+        chart.legend.enabled = false
+
+        // disable zoom function
+        chart.pinchZoomEnabled = false
+        chart.setScaleEnabled(false)
+        chart.doubleTapToZoomEnabled = false
+        return chart
+    }()
+    
+    private let barChartViewContainer: UIView = {
+        let container = UIView()
+        container.backgroundColor = .systemBackground
         container.layer.cornerRadius = Constance.cornerRadius
         return container
     }()
     
+    private func setupBarChartData(barChart: BarChartView) {
+        var entries = [BarChartDataEntry]()
+        for x in 0..<10 {
+            entries.append(
+                BarChartDataEntry(
+                    x: Double(x),
+                    y: calories[x]
+                )
+            )
+        }
+        let set = BarChartDataSet(entries: entries, label: "Calories")
+        set.colors = [NSUIColor(ciColor: CIColor(color: .systemOrange))]
+//        set.colors = ChartColorTemplates.joyful()
+        let data =  BarChartData(dataSet: set)
+        barChart.data = data
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         addSubViews()
-        
-        // beige
-        view.backgroundColor = UIColor(red: 250/255, green: 242/255, blue: 223/255, alpha: 1)
+        view.backgroundColor = Constance.beige
     }
     
     override func viewDidLayoutSubviews() {
@@ -72,12 +109,24 @@ class SummaryViewController: UIViewController {
                                       height: view.height / 4)
         configureTenDaysAvgView()
         
-        barChartView.frame = CGRect(x: 10,
+        barChartViewContainer.frame = CGRect(x: 10,
                                     y: tenDaysAvgView.bottom + 15,
                                     width: view.width - 20,
                                     height: view.height / 2)
+        
+        configureBarChart()
     }
     
+    private func configureBarChart() {
+        barChart.frame = CGRect(x: 20,
+                                y: (barChartViewContainer.height - view.height / 3)/2,
+                                width: view.width - 50,
+                                height: view.height / 3)
+        
+        setupBarChartData(barChart: barChart)
+        barChartViewContainer.addSubview(barChart)
+     }
+
     private func configureTenDaysAvgView() {
         // add tenDaysAvgLabel to the tenDaysAvgView
         tenDaysAvgView.addSubview(tenDaysAvgLabel)
@@ -100,8 +149,7 @@ class SummaryViewController: UIViewController {
     
     private func addSubViews() {
         view.addSubview(tenDaysAvgView)
-        view.addSubview(barChartView)
+        view.addSubview(barChartViewContainer)
     }
-
 }
 

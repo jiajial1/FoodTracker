@@ -22,6 +22,8 @@
 		9B74B42E298B2E5100836A1E /* LogBookViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B74B42D298B2E5100836A1E /* LogBookViewController.swift */; };
 		9B74B430298B336700836A1E /* AddNewItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B74B42F298B336700836A1E /* AddNewItemViewController.swift */; };
 		9B74B433298C50B800836A1E /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B74B432298C50B800836A1E /* Extensions.swift */; };
+		9B74B44B298CCAD400836A1E /* Charts in Frameworks */ = {isa = PBXBuildFile; productRef = 9B74B44A298CCAD400836A1E /* Charts */; };
+		9B74B44D298DC48400836A1E /* Constance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B74B44C298DC48400836A1E /* Constance.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -61,6 +63,7 @@
 		9B74B42D298B2E5100836A1E /* LogBookViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogBookViewController.swift; sourceTree = "<group>"; };
 		9B74B42F298B336700836A1E /* AddNewItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewItemViewController.swift; sourceTree = "<group>"; };
 		9B74B432298C50B800836A1E /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
+		9B74B44C298DC48400836A1E /* Constance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constance.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -68,6 +71,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9B74B44B298CCAD400836A1E /* Charts in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -165,6 +169,7 @@
 		9B74B422298895D700836A1E /* View */ = {
 			isa = PBXGroup;
 			children = (
+				9B74B44C298DC48400836A1E /* Constance.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -202,6 +207,7 @@
 			);
 			name = FoodTracker;
 			packageProductDependencies = (
+				9B74B44A298CCAD400836A1E /* Charts */,
 			);
 			productName = FoodTracker;
 			productReference = 9B74B3EA2988958C00836A1E /* FoodTracker.app */;
@@ -276,6 +282,7 @@
 			);
 			mainGroup = 9B74B3E12988958C00836A1E;
 			packageReferences = (
+				9B74B449298CCAD400836A1E /* XCRemoteSwiftPackageReference "Charts" */,
 			);
 			productRefGroup = 9B74B3EB2988958C00836A1E /* Products */;
 			projectDirPath = "";
@@ -328,6 +335,7 @@
 				9B74B429298B143900836A1E /* Nutrition.swift in Sources */,
 				9B74B425298B0E6900836A1E /* FoodClient.swift in Sources */,
 				9B74B3EE2988958C00836A1E /* AppDelegate.swift in Sources */,
+				9B74B44D298DC48400836A1E /* Constance.swift in Sources */,
 				9B74B3F02988958C00836A1E /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -670,6 +678,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		9B74B449298CCAD400836A1E /* XCRemoteSwiftPackageReference "Charts" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/danielgindi/Charts";
+			requirement = {
+				kind = exactVersion;
+				version = 4.1.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		9B74B44A298CCAD400836A1E /* Charts */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9B74B449298CCAD400836A1E /* XCRemoteSwiftPackageReference "Charts" */;
+			productName = Charts;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		9B74B3F62988958C00836A1E /* FoodTracker.xcdatamodeld */ = {
