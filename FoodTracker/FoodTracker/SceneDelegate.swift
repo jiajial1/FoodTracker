@@ -16,6 +16,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
+        
+        // Save user's current menu in the UserDefaults
+//        if !isSameDay() {
+//            emptyFoodList()
+//        }
+        emptyFoodList()
         guard let _ = (scene as? UIWindowScene) else { return }
     }
 
@@ -50,6 +56,21 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         (UIApplication.shared.delegate as? AppDelegate)?.saveContext()
     }
 
-
+    func isSameDay() -> Bool {
+        if let dateOnFile = UserDefaults.standard.object(forKey: "dateOnFile") as? NSDate{
+            let diff = Calendar.current.dateComponents([.day], from: NSDate() as Date, to: dateOnFile as Date)
+            return diff.day == 0
+        } else {
+            UserDefaults.standard.set(NSDate(), forKey: "dateOnFile")
+        }
+        return false
+    }
+    
+    func emptyFoodList() {
+        var nutritionArray: [Nutrition] = []
+        UserDefaults.standard.set(nutritionArray, forKey: "nutrition")
+//        UserDefaults.standard.set([], forKey: "foodItems")
+//        UserDefaults.standard.set([], forKey: "calories")
+    }
 }
 

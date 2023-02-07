@@ -10,7 +10,8 @@ import UIKit
 
 class AddNewItemViewController: UIViewController {
     var currentSearchTask: URLSessionDataTask?
-    var nutritionArray = [Nutrition]()
+//    var nutritionArray = [Nutrition]()
+
 //    var nutritionArray = [FoodTracker.Nutrition(name: "beef", servingSize: 28.3495, fatTotal: 5.6, calories: 82.8, protein: 7.5, carbohydratesTotal: 0.0, fiber: 0.0), FoodTracker.Nutrition(name: "apple", servingSize: 28.3495, fatTotal: 0.0, calories: 15.0, protein: 0.1, carbohydratesTotal: 4.0, fiber: 0.7), FoodTracker.Nutrition(name: "banana", servingSize: 28.3495, fatTotal: 0.1, calories: 25.3, protein: 0.3, carbohydratesTotal: 6.6, fiber: 0.7)]
     
     let searchBar: UISearchBar = {
@@ -47,8 +48,6 @@ class AddNewItemViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print(nutritionArray)
-
         view.backgroundColor = Constance.beige
         
         configureNavigationBar()
@@ -59,9 +58,13 @@ class AddNewItemViewController: UIViewController {
         tableView.delegate = self
         tableView.dataSource = self
         view.addSubview(tableView)
-        tableView.reloadData()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        print("reload")
+        super.viewWillAppear(animated)
+        tableView.reloadData()
+    }
     private func configureNavigationBar() {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "MMM d, yyyy"
@@ -72,13 +75,14 @@ class AddNewItemViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        print(nutritionArray.count)
         // assign frame
         configureSearchBar()
         tableView.frame = CGRect(x: 10,
                                  y: searchBar.bottom + 10,
                                  width: view.width - 20,
-                                 height: Constance.cellHeight * CGFloat(nutritionArray.count))
+                                 height: 200)
+
+//                                 height: Constance.cellHeight * CGFloat(nutritionArray.count+1))
     }
     
     private func configureSearchBar() {
@@ -116,15 +120,14 @@ extension AddNewItemViewController: UISearchBarDelegate {
     private func presentModal(nutrition: Nutrition) {
         let detailViewController = NutritionDetailViewController()
         detailViewController.nutrition = nutrition
-        
-        let nav = UINavigationController(rootViewController: detailViewController)
-        nav.modalPresentationStyle = .pageSheet
-
-        if let sheet = nav.sheetPresentationController {
-            sheet.detents = [.medium()]
-        }
-        present(nav, animated: true, completion: nil)
-         
+//        let nav = UINavigationController(rootViewController: detailViewController)
+//        nav.modalPresentationStyle = .pageSheet
+//
+//        if let sheet = nav.sheetPresentationController {
+//            sheet.detents = [.medium()]
+//        }
+//        present(nav, animated: true, completion: nil)
+        navigationController?.pushViewController(detailViewController, animated: true)
     }
     
 //    func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
@@ -171,12 +174,19 @@ extension AddNewItemViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! LogBookTableViewCell
-        cell.textLabel1.text = nutritionArray[indexPath.row].name
-        cell.textLabel2.text = String(nutritionArray[indexPath.row].calories)
+        if let nutritionArray = UserDefaults.standard.array(forKey: "nutrition") as? [Nutrition] {
+            cell.textLabel1.text = nutritionArray[indexPath.row].name
+            cell.textLabel2.text = String(nutritionArray[indexPath.row].calories)
+        }
+
+//        cell.textLabel1.text = nutritionArray[indexPath.row].name
+//        cell.textLabel2.text = String(nutritionArray[indexPath.row].calories)
+//        cell.textLabel1.text = UserDefaults.standard.array(forKey: "foodItems") as? String
+//        cell.textLabel2.text = UserDefaults.standard.array(forKey: "calories") as? String
         return cell
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return UserDefaults.standard.array(forKey: "foodItems")?.count ?? 0
     }
 }
