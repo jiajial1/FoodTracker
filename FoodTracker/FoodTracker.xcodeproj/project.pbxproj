@@ -24,6 +24,8 @@
 		9B74B433298C50B800836A1E /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B74B432298C50B800836A1E /* Extensions.swift */; };
 		9B74B44B298CCAD400836A1E /* Charts in Frameworks */ = {isa = PBXBuildFile; productRef = 9B74B44A298CCAD400836A1E /* Charts */; };
 		9B74B44D298DC48400836A1E /* Constance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B74B44C298DC48400836A1E /* Constance.swift */; };
+		9B74B44F298DED9D00836A1E /* LogBookTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B74B44E298DED9D00836A1E /* LogBookTableViewCell.swift */; };
+		9B74B4532992010200836A1E /* NutritionDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B74B4522992010200836A1E /* NutritionDetailViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -64,6 +66,8 @@
 		9B74B42F298B336700836A1E /* AddNewItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewItemViewController.swift; sourceTree = "<group>"; };
 		9B74B432298C50B800836A1E /* Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extensions.swift; sourceTree = "<group>"; };
 		9B74B44C298DC48400836A1E /* Constance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constance.swift; sourceTree = "<group>"; };
+		9B74B44E298DED9D00836A1E /* LogBookTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogBookTableViewCell.swift; sourceTree = "<group>"; };
+		9B74B4522992010200836A1E /* NutritionDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NutritionDetailViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -152,6 +156,8 @@
 				9B74B3F12988958C00836A1E /* SummaryViewController.swift */,
 				9B74B42D298B2E5100836A1E /* LogBookViewController.swift */,
 				9B74B42F298B336700836A1E /* AddNewItemViewController.swift */,
+				9B74B44E298DED9D00836A1E /* LogBookTableViewCell.swift */,
+				9B74B4522992010200836A1E /* NutritionDetailViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -330,6 +336,8 @@
 				9B74B3F82988958C00836A1E /* FoodTracker.xcdatamodeld in Sources */,
 				9B74B433298C50B800836A1E /* Extensions.swift in Sources */,
 				9B74B3F22988958C00836A1E /* SummaryViewController.swift in Sources */,
+				9B74B4532992010200836A1E /* NutritionDetailViewController.swift in Sources */,
+				9B74B44F298DED9D00836A1E /* LogBookTableViewCell.swift in Sources */,
 				9B74B430298B336700836A1E /* AddNewItemViewController.swift in Sources */,
 				9B74B42E298B2E5100836A1E /* LogBookViewController.swift in Sources */,
 				9B74B429298B143900836A1E /* Nutrition.swift in Sources */,

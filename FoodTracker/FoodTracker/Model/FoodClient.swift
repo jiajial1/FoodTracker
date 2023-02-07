@@ -26,7 +26,7 @@ class FoodClient {
         }
     }
     
-    class func getNutrition(query: String, completion: @escaping ([Nutrition], Error?) -> Void) {
+    class func getNutrition(query: String, completion: @escaping ([Nutrition], Error?) -> Void) -> URLSessionDataTask {
         var request = URLRequest(url: Endpoints.getNutrition(query).url)
         request.setValue(apiKey, forHTTPHeaderField: "X-Api-Key")
         
@@ -37,7 +37,7 @@ class FoodClient {
                 }
             return
             }
-            
+
             let decoder = JSONDecoder()
             do {
                 let responseObject = try decoder.decode(NutritionArray.self, from: data)
@@ -51,5 +51,6 @@ class FoodClient {
             }
         }
         task.resume()
+        return task
     }
 }

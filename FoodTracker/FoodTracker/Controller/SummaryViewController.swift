@@ -8,7 +8,7 @@
 import UIKit
 import Charts
 
-class SummaryViewController: UIViewController {  
+class SummaryViewController: UIViewController {
     let calories: [Double] = [1800, 1600, 1800, 1600, 1800, 1800, 1800, 1600, 1800, 1600, 1800, 1800]
 
     private let tenDaysAvgLabel: UILabel = {
@@ -87,16 +87,17 @@ class SummaryViewController: UIViewController {
             )
         }
         let set = BarChartDataSet(entries: entries, label: "Calories")
-        set.colors = [NSUIColor(ciColor: CIColor(color: .systemOrange))]
-//        set.colors = ChartColorTemplates.joyful()
+        // set.colors = [NSUIColor(ciColor: CIColor(color: .systemOrange))]
+        set.colors = ChartColorTemplates.joyful()
         let data =  BarChartData(dataSet: set)
         barChart.data = data
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        addSubViews()
         view.backgroundColor = Constance.beige
+        configureNavigationBar()
+        addSubViews()
     }
     
     override func viewDidLayoutSubviews() {
@@ -117,6 +118,12 @@ class SummaryViewController: UIViewController {
         configureBarChart()
     }
     
+    private func configureNavigationBar() {
+        navigationItem.title = "Summary"
+        navigationController!.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: Constance.font, size: Constance.titleSize)!]
+        navigationController?.title = "Summary"
+    }
+    
     private func configureBarChart() {
         barChart.frame = CGRect(x: 20,
                                 y: (barChartViewContainer.height - view.height / 3)/2,
@@ -131,20 +138,26 @@ class SummaryViewController: UIViewController {
         // add tenDaysAvgLabel to the tenDaysAvgView
         tenDaysAvgView.addSubview(tenDaysAvgLabel)
         tenDaysAvgLabel.translatesAutoresizingMaskIntoConstraints = false
-        tenDaysAvgLabel.centerXAnchor.constraint(equalTo: tenDaysAvgView.centerXAnchor).isActive = true
-        tenDaysAvgLabel.centerYAnchor.constraint(equalTo: tenDaysAvgView.centerYAnchor, constant: -tenDaysAvgView.height/3.5).isActive = true
+        NSLayoutConstraint.activate([
+            tenDaysAvgLabel.centerXAnchor.constraint(equalTo: tenDaysAvgView.centerXAnchor),
+            tenDaysAvgLabel.centerYAnchor.constraint(equalTo: tenDaysAvgView.centerYAnchor, constant: -tenDaysAvgView.height/3.5)
+        ])
         
         // add tenDaysAvg to the tenDaysAvgView
         tenDaysAvgView.addSubview(tenDaysAvg)
         tenDaysAvg.translatesAutoresizingMaskIntoConstraints = false
-        tenDaysAvg.centerXAnchor.constraint(equalTo: tenDaysAvgView.centerXAnchor, constant: -tenDaysAvgView.width/20).isActive = true
-        tenDaysAvg.centerYAnchor.constraint(equalTo: tenDaysAvgView.centerYAnchor).isActive = true
+        NSLayoutConstraint.activate([
+            tenDaysAvg.centerXAnchor.constraint(equalTo: tenDaysAvgView.centerXAnchor, constant: -tenDaysAvgView.width/20),
+            tenDaysAvg.centerYAnchor.constraint(equalTo: tenDaysAvgView.centerYAnchor)
+        ])
         
         // add unit to the tenDaysAvgView
         tenDaysAvgView.addSubview(unit)
         unit.translatesAutoresizingMaskIntoConstraints = false
-        unit.leftAnchor.constraint(equalTo: tenDaysAvg.rightAnchor, constant: tenDaysAvgView.width/25).isActive = true
-        unit.bottomAnchor.constraint(equalTo: tenDaysAvg.bottomAnchor, constant: -8).isActive = true
+        NSLayoutConstraint.activate([
+            unit.leftAnchor.constraint(equalTo: tenDaysAvg.rightAnchor, constant: tenDaysAvgView.width/25),
+            unit.bottomAnchor.constraint(equalTo: tenDaysAvg.bottomAnchor, constant: -8)
+        ])
     }
     
     private func addSubViews() {

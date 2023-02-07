@@ -15,50 +15,30 @@
                     <view key="view" contentMode="scaleToFill" id="qc2-5p-BKt">
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <searchBar contentMode="redraw" placeholder="Please use food name  and wt. eg. 1oz beef" translatesAutoresizingMaskIntoConstraints="NO" id="sif-2V-FxM">
-                                <rect key="frame" x="0.0" y="103" width="393" height="44"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="44" id="NaX-vW-tE0"/>
-                                </constraints>
-                                <textInputTraits key="textInputTraits"/>
-                                <connections>
-                                    <outlet property="delegate" destination="4sq-gI-bUJ" id="qdE-DU-vvt"/>
-                                </connections>
-                            </searchBar>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="-1" estimatedSectionHeaderHeight="-1" sectionFooterHeight="-1" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="uhj-y6-sJj">
-                                <rect key="frame" x="30" y="147" width="333" height="622"/>
-                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                <prototypes>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" id="ylr-iG-Ypz">
-                                        <rect key="frame" x="0.0" y="50" width="333" height="43.666667938232422"/>
-                                        <autoresizingMask key="autoresizingMask"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ylr-iG-Ypz" id="bWq-dM-wQy">
-                                            <rect key="frame" x="0.0" y="0.0" width="333" height="43.666667938232422"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                        </tableViewCellContentView>
-                                    </tableViewCell>
-                                </prototypes>
-                            </tableView>
-                        </subviews>
                         <viewLayoutGuide key="safeArea" id="Nxy-PN-ZdV"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                        <constraints>
-                            <constraint firstItem="sif-2V-FxM" firstAttribute="top" secondItem="Nxy-PN-ZdV" secondAttribute="top" id="MMM-Df-LeX"/>
-                            <constraint firstItem="sif-2V-FxM" firstAttribute="leading" secondItem="Nxy-PN-ZdV" secondAttribute="leading" id="QoP-T0-zuZ"/>
-                            <constraint firstItem="Nxy-PN-ZdV" firstAttribute="trailing" secondItem="uhj-y6-sJj" secondAttribute="trailing" constant="30" id="Rir-ht-XS6"/>
-                            <constraint firstItem="uhj-y6-sJj" firstAttribute="top" secondItem="sif-2V-FxM" secondAttribute="bottom" id="Rj1-Kn-RnF"/>
-                            <constraint firstItem="Nxy-PN-ZdV" firstAttribute="bottom" secondItem="uhj-y6-sJj" secondAttribute="bottom" id="gDH-Xp-aiG"/>
-                            <constraint firstItem="sif-2V-FxM" firstAttribute="centerX" secondItem="uhj-y6-sJj" secondAttribute="centerX" id="jMA-RW-N6E"/>
-                            <constraint firstItem="uhj-y6-sJj" firstAttribute="leading" secondItem="Nxy-PN-ZdV" secondAttribute="leading" constant="30" id="lzX-Ae-aYP"/>
-                        </constraints>
                     </view>
                     <tabBarItem key="tabBarItem" title="Item" id="1BV-cn-d0F"/>
-                    <navigationItem key="navigationItem" title="Log" id="cKM-a2-kWO"/>
+                    <navigationItem key="navigationItem" id="cKM-a2-kWO"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="3O2-2u-NEo" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="79" y="2244"/>
+        </scene>
+        <!--NutritionDetailViewController-->
+        <scene sceneID="iIB-jO-6OR">
+            <objects>
+                <viewController storyboardIdentifier="NutritionDetailViewController" title="NutritionDetailViewController" id="8v8-NU-gFf" customClass="NutritionDetailViewController" customModule="FoodTracker" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="Kwm-jf-1Jg">
+                        <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <viewLayoutGuide key="safeArea" id="jqg-ph-Pix"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="GbY-7F-z0m" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="94" y="2994"/>
         </scene>
         <!--LogBook-->
         <scene sceneID="ztM-74-6Ja">
@@ -71,7 +51,7 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Item 2" id="FUs-VC-15f"/>
-                    <navigationItem key="navigationItem" title="Logbook" id="ufb-4H-tzi"/>
+                    <navigationItem key="navigationItem" id="ufb-4H-tzi"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="fAh-pB-ybK" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
@@ -105,7 +85,7 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                     <tabBarItem key="tabBarItem" title="Item 1" id="zKh-pu-zOw"/>
-                    <navigationItem key="navigationItem" title="Summary" id="bwS-I5-wPu"/>
+                    <navigationItem key="navigationItem" id="bwS-I5-wPu"/>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="21z-Uy-Jdh" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
