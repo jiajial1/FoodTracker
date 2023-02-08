@@ -13,10 +13,8 @@ class AddNewItemViewController: UIViewController, NSFetchedResultsControllerDele
     var currentSearchTask: URLSessionDataTask?
     var dataController: DataController!
     var fetchedResultsController:NSFetchedResultsController<Food>!
-    var food = Food()
-    var foodArray = [Food]()
     var addNewItemView = AddNewItemView()
-//    var nutritionArray = [FoodTracker.Nutrition(name: "beef", servingSize: 28.3495, fatTotal: 5.6, calories: 82.8, protein: 7.5, carbohydratesTotal: 0.0, fiber: 0.0), FoodTracker.Nutrition(name: "apple", servingSize: 28.3495, fatTotal: 0.0, calories: 15.0, protein: 0.1, carbohydratesTotal: 4.0, fiber: 0.7), FoodTracker.Nutrition(name: "banana", servingSize: 28.3495, fatTotal: 0.1, calories: 25.3, protein: 0.3, carbohydratesTotal: 6.6, fiber: 0.7)]
+    //    var nutritionArray = [FoodTracker.Nutrition(name: "beef", servingSize: 28.3495, fatTotal: 5.6, calories: 82.8, protein: 7.5, carbohydratesTotal: 0.0, fiber: 0.0), FoodTracker.Nutrition(name: "apple", servingSize: 28.3495, fatTotal: 0.0, calories: 15.0, protein: 0.1, carbohydratesTotal: 4.0, fiber: 0.7), FoodTracker.Nutrition(name: "banana", servingSize: 28.3495, fatTotal: 0.1, calories: 25.3, protein: 0.3, carbohydratesTotal: 6.6, fiber: 0.7)]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -54,22 +52,22 @@ class AddNewItemViewController: UIViewController, NSFetchedResultsControllerDele
         var count = UserDefaults.standard.array(forKey: "foodItems")?.count ?? 0
         addNewItemView.tableView.frame = CGRect(x: 10,
                                                 y: addNewItemView.searchBar.bottom + 10,
-                                 width: view.width - 20,
-                                 height: view.height)
-//                                 height: Constance.cellHeight * CGFloat(count+1))
+                                                width: view.width - 20,
+                                                height: view.height)
+        //                                 height: Constance.cellHeight * CGFloat(count+1))
     }
     
     private func configureSearchBar() {
         addNewItemView.searchBar.frame = CGRect(x: 20,
-                                      y: view.safeAreaInsets.top + 10,
-                                      width: view.width - 40,
-                                      height: 40)
-
+                                                y: view.safeAreaInsets.top + 10,
+                                                width: view.width - 40,
+                                                height: 40)
+        
         addNewItemView.searchBar.placeholder = "Search food with wt., eg. 1 oz apple"
         addNewItemView.searchBar.searchTextField.font = UIFont(name: "GillSans", size: 18)
         addNewItemView.searchBar.searchTextField.backgroundColor = UIColor.white
     }
-
+    
 }
 
 extension AddNewItemViewController: UISearchBarDelegate {
@@ -84,20 +82,20 @@ extension AddNewItemViewController: UISearchBarDelegate {
         
         presentModal(nutrition: results[0])
     }
-
+    
     private func presentModal(nutrition: Nutrition) {
         let detailViewController = NutritionDetailViewController()
         detailViewController.nutrition = nutrition
-//        let nav = UINavigationController(rootViewController: detailViewController)
-//        nav.modalPresentationStyle = .pageSheet
-//
-//        if let sheet = nav.sheetPresentationController {
-//            sheet.detents = [.medium()]
-//        }
-//        present(nav, animated: true, completion: nil)
+        //        let nav = UINavigationController(rootViewController: detailViewController)
+        //        nav.modalPresentationStyle = .pageSheet
+        //
+        //        if let sheet = nav.sheetPresentationController {
+        //            sheet.detents = [.medium()]
+        //        }
+        //        present(nav, animated: true, completion: nil)
         navigationController?.pushViewController(detailViewController, animated: true)
     }
-
+    
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
         addNewItemView.searchBar.endEditing(true)
     }
@@ -120,10 +118,10 @@ extension AddNewItemViewController: UITableViewDelegate, UITableViewDataSource {
         
         header.addSubview(addNewItemView.foodColoumLabel)
         header.addSubview(addNewItemView.calColoumLabel)
-
+        
         return header
     }
-
+    
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return Constance.cellHeight
     }

@@ -13,19 +13,19 @@ class SummaryViewController: UIViewController, NSFetchedResultsControllerDelegat
     var dataController: DataController!
     var fetchedResultsController:NSFetchedResultsController<Food>!
     let summaryView = SummaryView()
-//    fileprivate func configureFetchedResutlController() {
-//        let fetchRequest: NSFetchRequest<Food> = Food.fetchRequest()
-//        let sortDescriptor = NSSortDescriptor(key: "date", ascending: true)
-//        fetchRequest.sortDescriptors = [sortDescriptor]
-//        fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.viewContext, sectionNameKeyPath: nil, cacheName: "\(Date())")
-//
-//        fetchedResultsController.delegate = self
-//        do {
-//            try fetchedResultsController.performFetch()
-//        } catch {
-//            fatalError("The fetch could not be performed: \(error.localizedDescription)")
-//        }
-//    }
+    //    fileprivate func configureFetchedResutlController() {
+    //        let fetchRequest: NSFetchRequest<Food> = Food.fetchRequest()
+    //        let sortDescriptor = NSSortDescriptor(key: "date", ascending: true)
+    //        fetchRequest.sortDescriptors = [sortDescriptor]
+    //        fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.viewContext, sectionNameKeyPath: nil, cacheName: "\(Date())")
+    //
+    //        fetchedResultsController.delegate = self
+    //        do {
+    //            try fetchedResultsController.performFetch()
+    //        } catch {
+    //            fatalError("The fetch could not be performed: \(error.localizedDescription)")
+    //        }
+    //    }
     
     let calories: [Double] = [1800, 1600, 1800, 1600, 1800, 1800, 1800, 1600, 1800, 1600, 1800, 1800]
     
@@ -58,15 +58,15 @@ class SummaryViewController: UIViewController, NSFetchedResultsControllerDelegat
         
         // assign frame
         summaryView.tenDaysAvgView.frame = CGRect(x: 10,
-                                      y: view.safeAreaInsets.top,
-                                      width: view.width - 20,
-                                      height: view.height / 4)
+                                                  y: view.safeAreaInsets.top,
+                                                  width: view.width - 20,
+                                                  height: view.height / 4)
         configureTenDaysAvgView()
         
         summaryView.barChartViewContainer.frame = CGRect(x: 10,
                                                          y: summaryView.tenDaysAvgView.bottom + 15,
-                                    width: view.width - 20,
-                                    height: view.height / 2)
+                                                         width: view.width - 20,
+                                                         height: view.height / 2)
         
         configureBarChart()
     }
@@ -80,13 +80,13 @@ class SummaryViewController: UIViewController, NSFetchedResultsControllerDelegat
     private func configureBarChart() {
         summaryView.barChart.frame = CGRect(x: 20,
                                             y: (summaryView.barChartViewContainer.height - view.height / 3)/2,
-                                width: view.width - 50,
-                                height: view.height / 3)
+                                            width: view.width - 50,
+                                            height: view.height / 3)
         
         setupBarChartData(barChart: summaryView.barChart)
         summaryView.barChartViewContainer.addSubview(summaryView.barChart)
-     }
-
+    }
+    
     private func configureTenDaysAvgView() {
         // add tenDaysAvgLabel to the tenDaysAvgView
         summaryView.tenDaysAvgView.addSubview(summaryView.tenDaysAvgLabel)

@@ -16,7 +16,7 @@ class LogBookViewController: UIViewController {
         
         view.backgroundColor = Constance.beige
         configureNavigationBar()
-
+        
         view.addSubview(logBook.tableView)
         logBook.tableView.dataSource = self
         logBook.tableView.delegate = self
@@ -25,13 +25,13 @@ class LogBookViewController: UIViewController {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         let safeAreaheight = view.height - view.safeAreaInsets.top - view.safeAreaInsets.bottom
-//        var heightOfTable = num * 45 > safeAreaheight ? safeAreaheight : num * 45
+        //        var heightOfTable = num * 45 > safeAreaheight ? safeAreaheight : num * 45
         logBook.tableView.frame = CGRect(x: 10,
-                                 y: view.safeAreaInsets.top,
-                                 width: view.width - 20,
-                                 height: safeAreaheight)
+                                         y: view.safeAreaInsets.top,
+                                         width: view.width - 20,
+                                         height: safeAreaheight)
     }
-
+    
     private func configureNavigationBar() {
         navigationItem.title = "LogBook"
         navigationController!.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: Constance.font, size: Constance.titleSize)!]
@@ -50,10 +50,10 @@ extension LogBookViewController: UITableViewDataSource, UITableViewDelegate {
         
         header.addSubview(logBook.dateLabel)
         header.addSubview(logBook.recordedLabel)
-
+        
         return header
     }
-
+    
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 45
     }
