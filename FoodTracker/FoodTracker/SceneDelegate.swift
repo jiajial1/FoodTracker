@@ -67,10 +67,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     func emptyFoodList() {
-        var nutritionArray: [Nutrition] = []
-        UserDefaults.standard.set(nutritionArray, forKey: "nutrition")
-//        UserDefaults.standard.set([], forKey: "foodItems")
-//        UserDefaults.standard.set([], forKey: "calories")
+        UserDefaults.standard.set([], forKey: "foodItems")
+        UserDefaults.standard.set([], forKey: "calories")
     }
 }
 

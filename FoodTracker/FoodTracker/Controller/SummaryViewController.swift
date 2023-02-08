@@ -7,74 +7,27 @@
 
 import UIKit
 import Charts
+import CoreData
 
-class SummaryViewController: UIViewController {
+class SummaryViewController: UIViewController, NSFetchedResultsControllerDelegate {
+    var dataController: DataController!
+    var fetchedResultsController:NSFetchedResultsController<Food>!
+    let summaryView = SummaryView()
+//    fileprivate func configureFetchedResutlController() {
+//        let fetchRequest: NSFetchRequest<Food> = Food.fetchRequest()
+//        let sortDescriptor = NSSortDescriptor(key: "date", ascending: true)
+//        fetchRequest.sortDescriptors = [sortDescriptor]
+//        fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.viewContext, sectionNameKeyPath: nil, cacheName: "\(Date())")
+//
+//        fetchedResultsController.delegate = self
+//        do {
+//            try fetchedResultsController.performFetch()
+//        } catch {
+//            fatalError("The fetch could not be performed: \(error.localizedDescription)")
+//        }
+//    }
+    
     let calories: [Double] = [1800, 1600, 1800, 1600, 1800, 1800, 1800, 1600, 1800, 1600, 1800, 1800]
-
-    private let tenDaysAvgLabel: UILabel = {
-        let label = UILabel()
-        label.text = "10-DAY-AVERAGE"
-        label.font = UIFont(name: Constance.font, size: 18)
-        label.textColor = .systemBlue
-        return label
-    }()
-    
-    private let tenDaysAvg: UILabel = {
-        let label = UILabel()
-        label.text = "1800"
-        label.font = UIFont(name: Constance.font, size: 45)
-        return label
-    }()
-    
-    private let unit: UILabel = {
-        let label = UILabel()
-        label.text = "cal"
-        label.font = UIFont(name: Constance.font, size: 18)
-        return label
-    }()
-    
-    private let tenDaysAvgView: UIView = {
-        let container = UIView()
-        container.backgroundColor = .systemBackground
-        container.layer.cornerRadius = Constance.cornerRadius
-        return container
-    }()
-    
-    private let barChart: BarChartView = {
-        let chart = BarChartView()
-        let dateStamp = ["1/20/2023", "1/20/2023", "1/20/2023", "1/20/2023","1/20/2023", "1/20/2023", "1/20/2023", "1/20/2023", "1/20/2023", "1/20/2023"]
-
-        // Setup Y axis
-        let leftAxis = chart.leftAxis
-        leftAxis.setLabelCount(6, force: true)
-        leftAxis.axisMinimum = 500.0
-
-        let xAxis = chart.xAxis
-        xAxis.labelRotationAngle = -25
-        xAxis.labelPosition = .bottom
-        xAxis.valueFormatter = IndexAxisValueFormatter(values: dateStamp)
-        
-        let rightAxis = chart.rightAxis
-        rightAxis.enabled = false
-        
-        // Bar, Grid Line, Background
-        chart.drawGridBackgroundEnabled = false
-        chart.drawBordersEnabled = false
-        chart.legend.enabled = false
-
-        // disable zoom function
-        chart.pinchZoomEnabled = false
-        chart.setScaleEnabled(false)
-        chart.doubleTapToZoomEnabled = false
-        return chart
-    }()
-    
-    private let barChartViewContainer: UIView = {
-        let container = UIView()
-        container.backgroundColor = .systemBackground
-        container.layer.cornerRadius = Constance.cornerRadius
-        return container
-    }()
     
     private func setupBarChartData(barChart: BarChartView) {
         var entries = [BarChartDataEntry]()
@@ -104,14 +57,14 @@ class SummaryViewController: UIViewController {
         super.viewDidLayoutSubviews()
         
         // assign frame
-        tenDaysAvgView.frame = CGRect(x: 10,
+        summaryView.tenDaysAvgView.frame = CGRect(x: 10,
                                       y: view.safeAreaInsets.top,
                                       width: view.width - 20,
                                       height: view.height / 4)
         configureTenDaysAvgView()
         
-        barChartViewContainer.frame = CGRect(x: 10,
-                                    y: tenDaysAvgView.bottom + 15,
+        summaryView.barChartViewContainer.frame = CGRect(x: 10,
+                                                         y: summaryView.tenDaysAvgView.bottom + 15,
                                     width: view.width - 20,
                                     height: view.height / 2)
         
@@ -125,44 +78,44 @@ class SummaryViewController: UIViewController {
     }
     
     private func configureBarChart() {
-        barChart.frame = CGRect(x: 20,
-                                y: (barChartViewContainer.height - view.height / 3)/2,
+        summaryView.barChart.frame = CGRect(x: 20,
+                                            y: (summaryView.barChartViewContainer.height - view.height / 3)/2,
                                 width: view.width - 50,
                                 height: view.height / 3)
         
-        setupBarChartData(barChart: barChart)
-        barChartViewContainer.addSubview(barChart)
+        setupBarChartData(barChart: summaryView.barChart)
+        summaryView.barChartViewContainer.addSubview(summaryView.barChart)
      }
 
     private func configureTenDaysAvgView() {
         // add tenDaysAvgLabel to the tenDaysAvgView
-        tenDaysAvgView.addSubview(tenDaysAvgLabel)
-        tenDaysAvgLabel.translatesAutoresizingMaskIntoConstraints = false
+        summaryView.tenDaysAvgView.addSubview(summaryView.tenDaysAvgLabel)
+        summaryView.tenDaysAvgLabel.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            tenDaysAvgLabel.centerXAnchor.constraint(equalTo: tenDaysAvgView.centerXAnchor),
-            tenDaysAvgLabel.centerYAnchor.constraint(equalTo: tenDaysAvgView.centerYAnchor, constant: -tenDaysAvgView.height/3.5)
+            summaryView.tenDaysAvgLabel.centerXAnchor.constraint(equalTo: summaryView.tenDaysAvgView.centerXAnchor),
+            summaryView.tenDaysAvgLabel.centerYAnchor.constraint(equalTo: summaryView.tenDaysAvgView.centerYAnchor, constant: -summaryView.tenDaysAvgView.height/3.5)
         ])
         
         // add tenDaysAvg to the tenDaysAvgView
-        tenDaysAvgView.addSubview(tenDaysAvg)
-        tenDaysAvg.translatesAutoresizingMaskIntoConstraints = false
+        summaryView.tenDaysAvgView.addSubview(summaryView.tenDaysAvg)
+        summaryView.tenDaysAvg.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            tenDaysAvg.centerXAnchor.constraint(equalTo: tenDaysAvgView.centerXAnchor, constant: -tenDaysAvgView.width/20),
-            tenDaysAvg.centerYAnchor.constraint(equalTo: tenDaysAvgView.centerYAnchor)
+            summaryView.tenDaysAvg.centerXAnchor.constraint(equalTo: summaryView.tenDaysAvgView.centerXAnchor, constant: -summaryView.tenDaysAvgView.width/20),
+            summaryView.tenDaysAvg.centerYAnchor.constraint(equalTo: summaryView.tenDaysAvgView.centerYAnchor)
         ])
         
         // add unit to the tenDaysAvgView
-        tenDaysAvgView.addSubview(unit)
-        unit.translatesAutoresizingMaskIntoConstraints = false
+        summaryView.tenDaysAvgView.addSubview(summaryView.unit)
+        summaryView.unit.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            unit.leftAnchor.constraint(equalTo: tenDaysAvg.rightAnchor, constant: tenDaysAvgView.width/25),
-            unit.bottomAnchor.constraint(equalTo: tenDaysAvg.bottomAnchor, constant: -8)
+            summaryView.unit.leftAnchor.constraint(equalTo: summaryView.tenDaysAvg.rightAnchor, constant: summaryView.tenDaysAvgView.width/25),
+            summaryView.unit.bottomAnchor.constraint(equalTo: summaryView.tenDaysAvg.bottomAnchor, constant: -8)
         ])
     }
     
     private func addSubViews() {
-        view.addSubview(tenDaysAvgView)
-        view.addSubview(barChartViewContainer)
+        view.addSubview(summaryView.tenDaysAvgView)
+        view.addSubview(summaryView.barChartViewContainer)
     }
 }
 
