@@ -16,7 +16,7 @@ class LogBookViewController: UIViewController,  NSFetchedResultsControllerDelega
     
     func configureFetchedResutlController() {
         let fetchRequest: NSFetchRequest<LogItem> = LogItem.fetchRequest()
-        let sortDescriptor = NSSortDescriptor(key: "date", ascending: true)
+        let sortDescriptor = NSSortDescriptor(key: "date", ascending: false)
         fetchRequest.sortDescriptors = [sortDescriptor]
         
         var dateFormated = Utils.getFormatedDate(date: Date())
@@ -45,8 +45,6 @@ class LogBookViewController: UIViewController,  NSFetchedResultsControllerDelega
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         configureFetchedResutlController()
-        print("viewWillAppear")
-        print(fetchedResultsController.fetchedObjects?.count)
         logBook.tableView.reloadData()
     }
     
