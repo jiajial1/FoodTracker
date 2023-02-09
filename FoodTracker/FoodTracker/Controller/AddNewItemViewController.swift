@@ -9,17 +9,16 @@ import Foundation
 import UIKit
 import CoreData
 
-class AddNewItemViewController: UIViewController, NSFetchedResultsControllerDelegate {
+class AddNewItemViewController: UIViewController {
     var currentSearchTask: URLSessionDataTask?
     var dataController: DataController!
-    var fetchedResultsController:NSFetchedResultsController<Food>!
     var addNewItemView = AddNewItemView()
-    //    var nutritionArray = [FoodTracker.Nutrition(name: "beef", servingSize: 28.3495, fatTotal: 5.6, calories: 82.8, protein: 7.5, carbohydratesTotal: 0.0, fiber: 0.0), FoodTracker.Nutrition(name: "apple", servingSize: 28.3495, fatTotal: 0.0, calories: 15.0, protein: 0.1, carbohydratesTotal: 4.0, fiber: 0.7), FoodTracker.Nutrition(name: "banana", servingSize: 28.3495, fatTotal: 0.1, calories: 25.3, protein: 0.3, carbohydratesTotal: 6.6, fiber: 0.7)]
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = Constance.beige
         
+        view.backgroundColor = Constance.beige
+                
         configureNavigationBar()
         
         addNewItemView.searchBar.delegate = self
@@ -31,16 +30,8 @@ class AddNewItemViewController: UIViewController, NSFetchedResultsControllerDele
     }
     
     override func viewWillAppear(_ animated: Bool) {
-        print("reload")
-        print(UserDefaults.standard.array(forKey: "foodItems")?.count)
         super.viewWillAppear(animated)
         addNewItemView.tableView.reloadData()
-    }
-    private func configureNavigationBar() {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "MMM d, yyyy"
-        navigationItem.title = dateFormatter.string(from: Date())
-        navigationController!.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: Constance.font, size: Constance.titleSize)!]
     }
     
     override func viewDidLayoutSubviews() {
@@ -49,14 +40,18 @@ class AddNewItemViewController: UIViewController, NSFetchedResultsControllerDele
         // assign frame
         configureSearchBar()
         
-        var count = UserDefaults.standard.array(forKey: "foodItems")?.count ?? 0
         addNewItemView.tableView.frame = CGRect(x: 10,
                                                 y: addNewItemView.searchBar.bottom + 10,
                                                 width: view.width - 20,
                                                 height: view.height)
-        //                                 height: Constance.cellHeight * CGFloat(count+1))
     }
     
+    private func configureNavigationBar() {
+        navigationItem.title = Utils.getFormatedDate(date: Date())
+        navigationController!.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: Constance.font, size: Constance.titleSize)!]
+    }
+    
+
     private func configureSearchBar() {
         addNewItemView.searchBar.frame = CGRect(x: 20,
                                                 y: view.safeAreaInsets.top + 10,
@@ -86,6 +81,8 @@ extension AddNewItemViewController: UISearchBarDelegate {
     private func presentModal(nutrition: Nutrition) {
         let detailViewController = NutritionDetailViewController()
         detailViewController.nutrition = nutrition
+        detailViewController.dataController = dataController
+
         //        let nav = UINavigationController(rootViewController: detailViewController)
         //        nav.modalPresentationStyle = .pageSheet
         //

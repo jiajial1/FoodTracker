@@ -7,12 +7,32 @@
 
 import Foundation
 import UIKit
+import CoreData
 
-class LogBookViewController: UIViewController {
+class LogBookViewController: UIViewController,  NSFetchedResultsControllerDelegate {
     var logBook = LogBookView()
+    var dataController: DataController!
+    var fetchedResultsController:NSFetchedResultsController<LogItem>!
+    
+    func configureFetchedResutlController() {
+        let fetchRequest: NSFetchRequest<LogItem> = LogItem.fetchRequest()
+        let sortDescriptor = NSSortDescriptor(key: "date", ascending: true)
+        fetchRequest.sortDescriptors = [sortDescriptor]
+        
+        var dateFormated = Utils.getFormatedDate(date: Date())
+        fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.viewContext, sectionNameKeyPath: nil, cacheName: "\(dateFormated)")
+        
+        fetchedResultsController.delegate = self
+        do {
+            try fetchedResultsController.performFetch()
+        } catch {
+            fatalError("The fetch could not be performed: \(error.localizedDescription)")
+        }
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureFetchedResutlController()
         
         view.backgroundColor = Constance.beige
         configureNavigationBar()
@@ -22,14 +42,20 @@ class LogBookViewController: UIViewController {
         logBook.tableView.delegate = self
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        configureFetchedResutlController()
+        print("viewWillAppear")
+        print(fetchedResultsController.fetchedObjects?.count)
+        logBook.tableView.reloadData()
+    }
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        let safeAreaheight = view.height - view.safeAreaInsets.top - view.safeAreaInsets.bottom
-        //        var heightOfTable = num * 45 > safeAreaheight ? safeAreaheight : num * 45
         logBook.tableView.frame = CGRect(x: 10,
                                          y: view.safeAreaInsets.top,
                                          width: view.width - 20,
-                                         height: safeAreaheight)
+                                         height: view.height)
     }
     
     private func configureNavigationBar() {
@@ -59,17 +85,21 @@ extension LogBookViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
+        return fetchedResultsController.sections?.count ?? 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath) as! LogBookTableViewCell
-        cell.textLabel1.text =  "2023/02/03"
-        cell.textLabel2.text = "1800.00"
+        let logItem = fetchedResultsController.object(at: indexPath)
+        
+        if let date = logItem.date {
+            cell.textLabel1.text = date
+            cell.textLabel2.text = String(logItem.calories)
+        }
         return cell
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 5
+        return fetchedResultsController.sections?[section].numberOfObjects ?? 0
     }
 }

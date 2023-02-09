@@ -6,23 +6,39 @@
 //
 
 import UIKit
+import CoreData
 
-class SceneDelegate: UIResponder, UIWindowSceneDelegate {
+class SceneDelegate: UIResponder, UIWindowSceneDelegate, NSFetchedResultsControllerDelegate {
 
     var window: UIWindow?
 
-
+    let dataController = DataController(modelName: "FoodTracker")
+    
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         
-        // Save user's current menu in the UserDefaults
-//        if !isSameDay() {
-//            emptyFoodList()
-//        }
-        emptyFoodList()
         guard let _ = (scene as? UIWindowScene) else { return }
+        
+        // Save user's current menu in the UserDefaults
+        if !isSameDay() {
+            emptyFoodList()
+        }
+        
+        dataController.load()
+        
+        if let tabBarVC = window?.rootViewController as? UITabBarController, let navVC = tabBarVC.viewControllers![0] as? UINavigationController, let VC = navVC.topViewController as? SummaryViewController{
+            VC.dataController = dataController
+        }
+        
+        if let tabBarVC = window?.rootViewController as? UITabBarController, let navVC = tabBarVC.viewControllers![1] as? UINavigationController, let VC = navVC.topViewController as? AddNewItemViewController{
+            VC.dataController = dataController
+        }
+        
+        if let tabBarVC = window?.rootViewController as? UITabBarController, let navVC = tabBarVC.viewControllers![2] as? UINavigationController, let VC = navVC.topViewController as? LogBookViewController{
+            VC.dataController = dataController
+        }
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
@@ -67,8 +83,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     }
     
     func emptyFoodList() {
-        UserDefaults.standard.set([], forKey: "foodItems")
-        UserDefaults.standard.set([], forKey: "calories")
+        var foodItemsArray: [String] = []
+        var caloriesArray: [Double] = []
+        UserDefaults.standard.set(foodItemsArray, forKey: "foodItems")
+        UserDefaults.standard.set(caloriesArray, forKey: "calories")
     }
 }
 

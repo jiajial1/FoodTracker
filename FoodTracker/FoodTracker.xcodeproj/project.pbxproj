@@ -31,6 +31,7 @@
 		9B917ADA29932B1800E73794 /* LogBookView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B917AD929932B1800E73794 /* LogBookView.swift */; };
 		9B917ADC29932BC400E73794 /* AddNewItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B917ADB29932BC400E73794 /* AddNewItemView.swift */; };
 		9B917ADE29932CCA00E73794 /* NutritionDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B917ADD29932CCA00E73794 /* NutritionDetailView.swift */; };
+		9B917AE5299497F800E73794 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B917AE4299497F800E73794 /* Utils.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -78,6 +79,7 @@
 		9B917AD929932B1800E73794 /* LogBookView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogBookView.swift; sourceTree = "<group>"; };
 		9B917ADB29932BC400E73794 /* AddNewItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewItemView.swift; sourceTree = "<group>"; };
 		9B917ADD29932CCA00E73794 /* NutritionDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NutritionDetailView.swift; sourceTree = "<group>"; };
+		9B917AE4299497F800E73794 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -135,7 +137,6 @@
 				9B74B3F92988958D00836A1E /* Assets.xcassets */,
 				9B74B3FB2988958D00836A1E /* LaunchScreen.storyboard */,
 				9B74B3FE2988958D00836A1E /* Info.plist */,
-				9B74B431298C50A500836A1E /* Resources */,
 				9B74B422298895D700836A1E /* View */,
 				9B74B421298895CE00836A1E /* Model */,
 				9B74B420298895C000836A1E /* Controller */,
@@ -168,6 +169,7 @@
 				9B74B42F298B336700836A1E /* AddNewItemViewController.swift */,
 				9B74B44E298DED9D00836A1E /* LogBookTableViewCell.swift */,
 				9B74B4522992010200836A1E /* NutritionDetailViewController.swift */,
+				9B917AE4299497F800E73794 /* Utils.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -186,6 +188,7 @@
 		9B74B422298895D700836A1E /* View */ = {
 			isa = PBXGroup;
 			children = (
+				9B74B432298C50B800836A1E /* Extensions.swift */,
 				9B74B44C298DC48400836A1E /* Constance.swift */,
 				9B917AD72993289800E73794 /* SummaryView.swift */,
 				9B917AD929932B1800E73794 /* LogBookView.swift */,
@@ -201,14 +204,6 @@
 				9B74B428298B143900836A1E /* Nutrition.swift */,
 			);
 			path = APIResponse;
-			sourceTree = "<group>";
-		};
-		9B74B431298C50A500836A1E /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-				9B74B432298C50B800836A1E /* Extensions.swift */,
-			);
-			path = Resources;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -359,6 +354,7 @@
 				9B74B42E298B2E5100836A1E /* LogBookViewController.swift in Sources */,
 				9B74B429298B143900836A1E /* Nutrition.swift in Sources */,
 				9B917ADA29932B1800E73794 /* LogBookView.swift in Sources */,
+				9B917AE5299497F800E73794 /* Utils.swift in Sources */,
 				9B74B425298B0E6900836A1E /* FoodClient.swift in Sources */,
 				9B74B3EE2988958C00836A1E /* AppDelegate.swift in Sources */,
 				9B74B44D298DC48400836A1E /* Constance.swift in Sources */,

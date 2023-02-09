@@ -11,43 +11,14 @@ import CoreData
 
 class SummaryViewController: UIViewController, NSFetchedResultsControllerDelegate {
     var dataController: DataController!
-    var fetchedResultsController:NSFetchedResultsController<Food>!
+    var fetchedResultsController:NSFetchedResultsController<LogItem>!
     let summaryView = SummaryView()
-    //    fileprivate func configureFetchedResutlController() {
-    //        let fetchRequest: NSFetchRequest<Food> = Food.fetchRequest()
-    //        let sortDescriptor = NSSortDescriptor(key: "date", ascending: true)
-    //        fetchRequest.sortDescriptors = [sortDescriptor]
-    //        fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.viewContext, sectionNameKeyPath: nil, cacheName: "\(Date())")
-    //
-    //        fetchedResultsController.delegate = self
-    //        do {
-    //            try fetchedResultsController.performFetch()
-    //        } catch {
-    //            fatalError("The fetch could not be performed: \(error.localizedDescription)")
-    //        }
-    //    }
     
     let calories: [Double] = [1800, 1600, 1800, 1600, 1800, 1800, 1800, 1600, 1800, 1600, 1800, 1800]
     
-    private func setupBarChartData(barChart: BarChartView) {
-        var entries = [BarChartDataEntry]()
-        for x in 0..<10 {
-            entries.append(
-                BarChartDataEntry(
-                    x: Double(x),
-                    y: calories[x]
-                )
-            )
-        }
-        let set = BarChartDataSet(entries: entries, label: "Calories")
-        // set.colors = [NSUIColor(ciColor: CIColor(color: .systemOrange))]
-        set.colors = ChartColorTemplates.joyful()
-        let data =  BarChartData(dataSet: set)
-        barChart.data = data
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureFetchedResutlController()
         view.backgroundColor = Constance.beige
         configureNavigationBar()
         addSubViews()
@@ -70,6 +41,40 @@ class SummaryViewController: UIViewController, NSFetchedResultsControllerDelegat
         
         configureBarChart()
     }
+    
+    func configureFetchedResutlController() {
+        let fetchRequest: NSFetchRequest<LogItem> = LogItem.fetchRequest()
+        let sortDescriptor = NSSortDescriptor(key: "date", ascending: true)
+        fetchRequest.sortDescriptors = [sortDescriptor]
+        
+        var dateFormated = Utils.getFormatedDate(date: Date())
+        fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.viewContext, sectionNameKeyPath: nil, cacheName: "\(dateFormated)")
+        
+        fetchedResultsController.delegate = self
+        do {
+            try fetchedResultsController.performFetch()
+        } catch {
+            fatalError("The fetch could not be performed: \(error.localizedDescription)")
+        }
+    }
+    
+    private func setupBarChartData(barChart: BarChartView) {
+        var entries = [BarChartDataEntry]()
+        for x in 0..<10 {
+            entries.append(
+                BarChartDataEntry(
+                    x: Double(x),
+                    y: calories[x]
+                )
+            )
+        }
+        let set = BarChartDataSet(entries: entries, label: "Calories")
+        // set.colors = [NSUIColor(ciColor: CIColor(color: .systemOrange))]
+        set.colors = ChartColorTemplates.joyful()
+        let data =  BarChartData(dataSet: set)
+        barChart.data = data
+    }
+    
     
     private func configureNavigationBar() {
         navigationItem.title = "Summary"
