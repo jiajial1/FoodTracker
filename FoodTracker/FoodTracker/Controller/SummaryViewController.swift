@@ -24,8 +24,7 @@ class SummaryViewController: UIViewController, NSFetchedResultsControllerDelegat
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         configureFetchedResutlController()
-        
-        // for refresh bar chart
+        configureBarChartContainer()
         addSubViews()
     }
     
@@ -47,50 +46,37 @@ class SummaryViewController: UIViewController, NSFetchedResultsControllerDelegat
         configureBarChartContainer()
     }
     
-    func configureFetchedResutlController() {
-        let fetchRequest: NSFetchRequest<LogItem> = LogItem.fetchRequest()
-        let sortDescriptor = NSSortDescriptor(key: "date", ascending: false)
-        fetchRequest.sortDescriptors = [sortDescriptor]
-        
-        var dateFormated = Utils.getFormatedDate(date: Date())
-        fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.viewContext, sectionNameKeyPath: nil, cacheName: "\(dateFormated)")
-        
-        fetchedResultsController.delegate = self
-        do {
-            try fetchedResultsController.performFetch()
-        } catch {
-            fatalError("The fetch could not be performed: \(error.localizedDescription)")
-        }
-    }
-            
-    private func setupBarChartData(barChart: BarChartView) {
-        guard fetchedResultsController.fetchedObjects?.count != 0, let numOfLogs = fetchedResultsController.fetchedObjects?.count else {
-            return
-        }
     
-        let numOfPoints = numOfLogs < 11 ? numOfLogs : 10
+    private func addSubViews() {
+        view.addSubview(summaryView.tenDaysAvgView)
+        view.addSubview(summaryView.barChartViewContainer)
+    }
+    
+    private func setupBarChartData(barChart: BarChartView) {
+        var resultsArray = getLastTenResults()
         var dataStamp: [String] = []
 
         var entries = [BarChartDataEntry]()
-        for x in 0..<numOfPoints {
+        for x in 0..<resultsArray.count {
             entries.append(
                 BarChartDataEntry(
                     x: Double(x),
-                    y: fetchedResultsController.fetchedObjects![0].calories
+                    y: resultsArray[x].calories
                 )
             )
-            dataStamp.append(fetchedResultsController.fetchedObjects![0].date!)
+            dataStamp.append(resultsArray[x].date!)
         }
         let set = BarChartDataSet(entries: entries, label: "Calories")
         set.colors = ChartColorTemplates.joyful()
+        
         let data =  BarChartData(dataSet: set)
-        if numOfPoints < 5 {
+        barChart.data = data
+        if resultsArray.count < 5 {
             data.barWidth = Double(0.1)
         }
-        barChart.data = data
+        
         barChart.xAxis.valueFormatter = IndexAxisValueFormatter(values: dataStamp)
-        barChart.xAxis.setLabelCount(numOfPoints, force: false)
-
+        barChart.xAxis.setLabelCount(resultsArray.count, force: false)
     }
     
     
@@ -109,6 +95,7 @@ class SummaryViewController: UIViewController, NSFetchedResultsControllerDelegat
             
             setupBarChartData(barChart: summaryView.barChart)
             summaryView.barChartViewContainer.addSubview(summaryView.barChart)
+            summaryView.noDataLabel.removeFromSuperview()
         } else {
             summaryView.barChartViewContainer.addSubview(summaryView.noDataLabel)
             summaryView.noDataLabel.translatesAutoresizingMaskIntoConstraints = false
@@ -129,6 +116,7 @@ class SummaryViewController: UIViewController, NSFetchedResultsControllerDelegat
         ])
         
         // add tenDaysAvg to the tenDaysAvgView
+        summaryView.tenDaysAvg.text = String(getLastTenCaloriesAvg())
         summaryView.tenDaysAvgView.addSubview(summaryView.tenDaysAvg)
         summaryView.tenDaysAvg.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -145,9 +133,44 @@ class SummaryViewController: UIViewController, NSFetchedResultsControllerDelegat
         ])
     }
     
-    private func addSubViews() {
-        view.addSubview(summaryView.tenDaysAvgView)
-        view.addSubview(summaryView.barChartViewContainer)
+    func configureFetchedResutlController() {
+        let fetchRequest: NSFetchRequest<LogItem> = LogItem.fetchRequest()
+        let sortDescriptor = NSSortDescriptor(key: "date", ascending: false)
+        fetchRequest.sortDescriptors = [sortDescriptor]
+        
+        var dateFormated = Utils.getFormatedDate(date: Date())
+        fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.viewContext, sectionNameKeyPath: nil, cacheName: "\(dateFormated)")
+        
+        fetchedResultsController.delegate = self
+        do {
+            try fetchedResultsController.performFetch()
+        } catch {
+            fatalError("The fetch could not be performed: \(error.localizedDescription)")
+        }
+    }
+        
+    
+    private func getLastTenResults() -> ArraySlice<LogItem> {
+        if let fetchedOjbject = fetchedResultsController.fetchedObjects, fetchedOjbject.count != 0 {
+            let numOfPoints = fetchedOjbject.count < 11 ? fetchedOjbject.count : 10
+            
+            return fetchedOjbject[fetchedOjbject.endIndex - numOfPoints ..< fetchedOjbject.endIndex]
+        }
+        return []
+    }
+    
+    private func getLastTenCaloriesAvg() -> Int {
+        let array = getLastTenResults()
+        if array == [] {
+            return 0
+        }
+        var length = array.count
+        var total = 0.0
+        for x in 0..<length {
+            total += array[x].calories
+        }
+        
+        return Int(total/Double(length))
     }
 }
 

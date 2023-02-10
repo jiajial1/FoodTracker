@@ -20,7 +20,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate, NSFetchedResultsControl
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
         
         guard let _ = (scene as? UIWindowScene) else { return }
-        
+
         // Save user's current menu in the UserDefaults
         if !isSameDay() {
             emptyFoodList()
@@ -51,6 +51,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate, NSFetchedResultsControl
     func sceneDidBecomeActive(_ scene: UIScene) {
         // Called when the scene has moved from an inactive state to an active state.
         // Use this method to restart any tasks that were paused (or not yet started) when the scene was inactive.
+        
+        // app can be in background for over a day
+        if !isSameDay() {
+            emptyFoodList()
+        }
     }
 
     func sceneWillResignActive(_ scene: UIScene) {

@@ -14,22 +14,6 @@ class LogBookViewController: UIViewController,  NSFetchedResultsControllerDelega
     var dataController: DataController!
     var fetchedResultsController:NSFetchedResultsController<LogItem>!
     
-    func configureFetchedResutlController() {
-        let fetchRequest: NSFetchRequest<LogItem> = LogItem.fetchRequest()
-        let sortDescriptor = NSSortDescriptor(key: "date", ascending: false)
-        fetchRequest.sortDescriptors = [sortDescriptor]
-        
-        var dateFormated = Utils.getFormatedDate(date: Date())
-        fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.viewContext, sectionNameKeyPath: nil, cacheName: "\(dateFormated)")
-        
-        fetchedResultsController.delegate = self
-        do {
-            try fetchedResultsController.performFetch()
-        } catch {
-            fatalError("The fetch could not be performed: \(error.localizedDescription)")
-        }
-    }
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureFetchedResutlController()
@@ -61,6 +45,23 @@ class LogBookViewController: UIViewController,  NSFetchedResultsControllerDelega
         navigationController!.navigationBar.titleTextAttributes = [NSAttributedString.Key.font: UIFont(name: Constance.font, size: Constance.titleSize)!]
         navigationController?.title = "LogBook"
     }
+    
+    func configureFetchedResutlController() {
+        let fetchRequest: NSFetchRequest<LogItem> = LogItem.fetchRequest()
+        let sortDescriptor = NSSortDescriptor(key: "date", ascending: false)
+        fetchRequest.sortDescriptors = [sortDescriptor]
+        
+        // Only search current day's data
+        var dateFormated = Utils.getFormatedDate(date: Date())
+        fetchedResultsController = NSFetchedResultsController(fetchRequest: fetchRequest, managedObjectContext: dataController.viewContext, sectionNameKeyPath: nil, cacheName: "\(dateFormated)")
+        
+        fetchedResultsController.delegate = self
+        do {
+            try fetchedResultsController.performFetch()
+        } catch {
+            fatalError("The fetch could not be performed: \(error.localizedDescription)")
+        }
+    }
 }
 
 extension LogBookViewController: UITableViewDataSource, UITableViewDelegate {
@@ -79,7 +80,7 @@ extension LogBookViewController: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 45
+        return Constance.cellHeight
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {

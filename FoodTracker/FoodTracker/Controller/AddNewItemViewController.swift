@@ -82,15 +82,15 @@ extension AddNewItemViewController: UISearchBarDelegate {
         let detailViewController = NutritionDetailViewController()
         detailViewController.nutrition = nutrition
         detailViewController.dataController = dataController
+        detailViewController.delegate = self
 
-        //        let nav = UINavigationController(rootViewController: detailViewController)
-        //        nav.modalPresentationStyle = .pageSheet
-        //
-        //        if let sheet = nav.sheetPresentationController {
-        //            sheet.detents = [.medium()]
-        //        }
-        //        present(nav, animated: true, completion: nil)
-        navigationController?.pushViewController(detailViewController, animated: true)
+        let nav = UINavigationController(rootViewController: detailViewController)
+        nav.modalPresentationStyle = .pageSheet
+        
+        if let sheet = nav.sheetPresentationController {
+            sheet.detents = [.medium()]
+        }
+        present(nav, animated: true, completion: nil)
     }
     
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
@@ -138,5 +138,11 @@ extension AddNewItemViewController: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return UserDefaults.standard.array(forKey: "foodItems")?.count ?? 0
+    }
+}
+
+extension AddNewItemViewController: NutritionDetailViewControllerDelegate {
+    func didTapOnButton() {
+        addNewItemView.tableView.reloadData()
     }
 }
