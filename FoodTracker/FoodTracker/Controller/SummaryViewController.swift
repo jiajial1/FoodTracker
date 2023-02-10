@@ -19,13 +19,14 @@ class SummaryViewController: UIViewController, NSFetchedResultsControllerDelegat
         configureFetchedResutlController()
         view.backgroundColor = Constance.beige
         configureNavigationBar()
+        addSubViews()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         configureFetchedResutlController()
         configureBarChartContainer()
-        addSubViews()
+        summaryView.barChart.renderer
     }
     
     override func viewDidLayoutSubviews() {

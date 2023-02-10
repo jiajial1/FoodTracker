@@ -51,11 +51,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate, NSFetchedResultsControl
     func sceneDidBecomeActive(_ scene: UIScene) {
         // Called when the scene has moved from an inactive state to an active state.
         // Use this method to restart any tasks that were paused (or not yet started) when the scene was inactive.
-        
-        // app can be in background for over a day
-        if !isSameDay() {
-            emptyFoodList()
-        }
     }
 
     func sceneWillResignActive(_ scene: UIScene) {
@@ -66,6 +61,11 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate, NSFetchedResultsControl
     func sceneWillEnterForeground(_ scene: UIScene) {
         // Called as the scene transitions from the background to the foreground.
         // Use this method to undo the changes made on entering the background.
+        
+        if !isSameDay() {
+            print("sceneWillEnterForeground")
+            emptyFoodList()
+        }
     }
 
     func sceneDidEnterBackground(_ scene: UIScene) {
@@ -88,8 +88,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate, NSFetchedResultsControl
     }
     
     func emptyFoodList() {
-        var foodItemsArray: [String] = []
-        var caloriesArray: [Double] = []
+        let foodItemsArray: [String] = []
+        let caloriesArray: [Double] = []
         UserDefaults.standard.set(foodItemsArray, forKey: "foodItems")
         UserDefaults.standard.set(caloriesArray, forKey: "calories")
     }
