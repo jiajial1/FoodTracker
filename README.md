@@ -3,7 +3,7 @@
 FoodTracker records the calories you eat every day by providing food/ingredients. Calories and nutrion information is obtained from https://api.calorieninjas.com/v1.  There are 3 major components in the app, `Summary`, 'LogBook' and 'add new tiem'. User can add food/ingredients with weight information into the table. 'Summary' shows the 10-day-average and a bart chart which show the last 10 days/entries. `plus` button next to Summary allows user to add the food/ingredients for the current day. and `LogBook` gives the total calories record of each day.
 
 ## Implementation
-App entry point is `SummaryViewController`. The  
+App entry point is `SummaryViewController`. `SummaryViewController` includes 10 days average (unit is calories) and a bar chart, which track last 10 data points. Both calories and date data are stored in the Core data. New data point can be added througth `AddNewItemViewController`. User can search food item with weight (in oz or g). Nutrition information on the searched food is obtained from GET api call https://api.calorieninjas.com/v1. Whenever there is new food item added into the table on `AddNewItemViewController`, the table on `LogBook` and 10 days average and the bar chart on `SummaryViewController` will be updated automatically. 
 
 ## How to build
 1. Pull the repository to local path.
