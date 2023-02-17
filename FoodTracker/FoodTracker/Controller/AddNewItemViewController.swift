@@ -20,7 +20,7 @@ class AddNewItemViewController: UIViewController {
         view.backgroundColor = Constance.beige
                 
         configureNavigationBar()
-        
+        configureSpinner()
         addNewItemView.searchBar.delegate = self
         view.addSubview(addNewItemView.searchBar)
         
@@ -39,11 +39,21 @@ class AddNewItemViewController: UIViewController {
         
         // assign frame
         configureSearchBar()
+        configureSpinner()
         
         addNewItemView.tableView.frame = CGRect(x: 10,
                                                 y: addNewItemView.searchBar.bottom + 10,
                                                 width: view.width - 20,
                                                 height: view.height)
+    }
+    
+    private func configureSpinner() {
+        view.addSubview(addNewItemView.spinner)
+        addNewItemView.spinner.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            addNewItemView.spinner.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            addNewItemView.spinner.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+        ])
     }
     
     private func configureNavigationBar() {
@@ -67,6 +77,8 @@ class AddNewItemViewController: UIViewController {
 
 extension AddNewItemViewController: UISearchBarDelegate {
     func searchResultsHandler( results: [Nutrition], error: Error?) {
+       addNewItemView.spinner.stopAnimating()
+        
         guard results != [] else {
             let alertVC = UIAlertController(title: "No item found", message: "Please try another food item", preferredStyle: .alert)
             alertVC.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
@@ -99,6 +111,7 @@ extension AddNewItemViewController: UISearchBarDelegate {
     
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         currentSearchTask?.cancel()
+        addNewItemView.spinner.startAnimating()
         currentSearchTask = FoodClient.getNutrition(query: searchBar.text ?? "", completion: searchResultsHandler(results:error:))
         searchBar.text = ""
     }

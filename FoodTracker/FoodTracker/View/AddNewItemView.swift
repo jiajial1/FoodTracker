@@ -14,6 +14,11 @@ class AddNewItemView: UIView {
         return searchBar
     }()
     
+    lazy var spinner: UIActivityIndicatorView = {
+        let spinner = UIActivityIndicatorView(style: UIActivityIndicatorView.Style.medium)
+        return spinner
+    }()
+    
     lazy var tableView: UITableView = {
         let table = UITableView(frame: .zero, style: .grouped)
         table.backgroundColor = Constance.beige
