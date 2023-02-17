@@ -63,7 +63,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate, NSFetchedResultsControl
         // Use this method to undo the changes made on entering the background.
         
         if !isSameDay() {
-            print("sceneWillEnterForeground")
             emptyFoodList()
         }
     }

@@ -26,6 +26,7 @@ class SummaryViewController: UIViewController, NSFetchedResultsControllerDelegat
         super.viewWillAppear(animated)
         configureFetchedResutlController()
         configureBarChartContainer()
+        configureTenDaysAvgView()
         summaryView.barChart.renderer
     }
     
